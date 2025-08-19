@@ -1,0 +1,15 @@
+# Huggingface Configuration
+HUGGINGFACE_API_KEY=
+HUGGINGFACE_ACCOUNT=
+HUGGINGFACE_DATASET_NAME=
+
+# OpenAI Configuration
+OPENAI_API_KEY=
+OPENAI_MODEL=o3
+
+# Fine-tuning Configuration
+FINETUNING_TYPE=QLoRA
+
+# Domain Configuration
+DOMAIN_NAME=your-domain-name
+EXPERT_ROLE=your expert role description 

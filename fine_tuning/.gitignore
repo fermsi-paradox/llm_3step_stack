@@ -1,0 +1,71 @@
+# Secrets and local env
+.env
+env_template
+
+# Virtual environments
+venv/
+training_env/
+upload_env/
+
+# Checkpoints, merged models, and large artifacts
+mixtral-na-expert-checkpoints/
+mixtral-na-expert-merged/
+*.pt
+*.bin
+*.safetensors
+
+# Logs and caches
+*.log
+nohup.out
+wandb/
+__pycache__/
+*.pyc
+
+# Environment variables
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Training outputs
+mixtral-na-expert-checkpoints/
+mixtral-na-expert-merged/
+*.log
+*.pt
+*.bin
+*.safetensors
+
+# Weights & Biases
+wandb/
+
+# SSH keys
+*.pem
+*_key
+*_key.pub
+
+# Model files
+models/
+checkpoints/
+outputs/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db 

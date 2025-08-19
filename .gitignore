@@ -1,0 +1,122 @@
+# Environment files
+.env
+.env.local
+.env.production
+.env.staging
+env.txt
+*.env
+
+# API Keys and Secrets
+*api_key*
+*secret*
+*token*
+*password*
+
+# Training Data
+*.jsonl
+training_data/
+datasets/
+
+# Raw Data (contains sensitive content)
+data_cleaning/raw_data/*.txt
+data_cleaning/raw_data/*.pdf
+data_cleaning/raw_data/*.docx
+data_cleaning/raw_data/*.csv
+data_cleaning/raw_data/*.json
+# Keep README.md in raw_data for documentation
+!data_cleaning/raw_data/README.md
+
+# Training Logs (contain sensitive information)
+*.log
+training_output/
+wandb/
+
+# Model Outputs
+models/
+checkpoints/
+*.bin
+*.safetensors
+*.pt
+*.pth
+
+# Virtual Environments
+venv/
+env/
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# IDE and Editor Files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# OS Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Temporary Files
+*.tmp
+*.temp
+temp/
+tmp/
+
+# SSH Keys
+*.pem
+*.key
+id_rsa*
+id_dsa*
+id_ecdsa*
+id_ed25519*
+
+# Lambda GPU specific
+lambda_gpu_key*
+*.ppk
+
+# HuggingFace cache
+.cache/
+huggingface_cache/
+
+# Weights & Biases
+wandb/
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+*.ipynb
+
+# pytest
+.pytest_cache/
+.coverage
+htmlcov/
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
