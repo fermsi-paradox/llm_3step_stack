@@ -5,7 +5,7 @@ First Step: Raw text data -> structured .jsonl or .json for fine-tuning.
 Second Step: Fine-tuning w/ Lambda Cloud GPUs.
 
 Final Step: Push a Gradio app.py file onto your Huggingface account to interact with the chatbot after it has been successfully fine-tuned.
-
+_____________________________________________________________________________________________________________________________________________
 Here are some key things to keep in mind:
 
 1 - All this takes place away from your local computer, so you are not constricted by compute.  You have the ability to fine-tune on a million friggin' GPUs if you want.  
