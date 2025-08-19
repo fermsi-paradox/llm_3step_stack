@@ -1,69 +1,67 @@
-# Expert AI Model Fine-tuning
+# Fine-tuning Module
 
-This module fine-tunes a **Mixtral 7Bx8** model on domain-specific expert data using Lambda GPU instances with **4-bit quantization**, **PEFT (LoRA)**, and **Weights & Biases** monitoring.
+This module fine-tunes a Mixtral 7Bx8 model on domain-specific expert data using Lambda GPU instances with 4-bit quantization, PEFT (LoRA), and Weights & Biases monitoring.
 
-⚠️ **ANTI-OVERFITTING CONFIGURATION** - Optimized for small datasets
+ANTI-OVERFITTING CONFIGURATION - Optimized for small datasets
 
-## 🎯 Overview
+## Overview
 
 The pipeline handles:
-1. **Training**: QLoRA fine-tuning with 4-bit quantization on Lambda GPU
-2. **Anti-Overfitting**: Validation split, early stopping, layer freezing, regularization
-3. **Monitoring**: Real-time metrics via Weights & Biases
-4. **Merging**: Combines LoRA adapters with base model
-5. **Uploading**: Pushes merged model to HuggingFace Hub
+1. Training: QLoRA fine-tuning with 4-bit quantization on Lambda GPU
+2. Anti-Overfitting: Validation split, early stopping, layer freezing, regularization
+3. Monitoring: Real-time metrics via Weights & Biases
+4. Merging: Combines LoRA adapters with base model
+5. Uploading: Pushes merged model to HuggingFace Hub
 
 All steps run automatically on Lambda GPU instances to avoid local memory issues.
 
-## 📊 Model Configuration
+## Model Configuration
 
-- **Base Model**: `mistralai/Mixtral-8x7B-Instruct-v0.1`
-- **Training Data**: Your HuggingFace dataset (configurable size)
-- **Train/Val Split**: 80% train / 20% validation (automatic split)
-- **Method**: QLoRA with 4-bit quantization (NF4) + anti-overfitting measures
-- **Output**: `{YOUR_ACCOUNT}/EXPERT-Mixtral-8x7B-Instruct`
+- Base Model: mistralai/Mixtral-8x7B-Instruct-v0.1
+- Training Data: Your HuggingFace dataset (configurable size)
+- Train/Val Split: 80% train / 20% validation (automatic split)
+- Method: QLoRA with 4-bit quantization (NF4) + anti-overfitting measures
+- Output: {YOUR_ACCOUNT}/EXPERT-Mixtral-8x7B-Instruct
 
-## 🛡️ Anti-Overfitting Measures
+## Anti-Overfitting Measures
 
-### **Dataset Management**
-- **Validation Split**: 20% held out for monitoring generalization
-- **Early Stopping**: Patience of 3 evaluations (stops if no improvement)
-- **Random Shuffling**: Ensures representative train/val split
+### Dataset Management
+- Validation Split: 20% held out for monitoring generalization
+- Early Stopping: Patience of 3 evaluations (stops if no improvement)
+- Random Shuffling: Ensures representative train/val split
 
-### **Model Regularization**
-- **Layer Freezing**: First 50% of layers frozen to retain base knowledge
-- **Low LoRA Rank**: 16 (vs 64) to limit adapter capacity
-- **Higher Dropout**: 15% LoRA dropout for noise injection
-- **Conservative Learning**: 1.5e-5 learning rate (vs 2e-4)
-- **Strong Weight Decay**: 0.08 (vs 0.001) for L2 regularization
+### Model Regularization
+- Layer Freezing: First 50% of layers frozen to retain base knowledge
+- Low LoRA Rank: 16 (vs 64) to limit adapter capacity
+- Higher Dropout: 15% LoRA dropout for noise injection
+- Conservative Learning: 1.5e-5 learning rate (vs 2e-4)
+- Strong Weight Decay: 0.08 (vs 0.001) for L2 regularization
 
-### **Training Control**
-- **Limited Epochs**: Maximum 3 epochs
-- **Frequent Evaluation**: Every 50 steps to catch overfitting early
-- **Best Model Loading**: Automatically loads checkpoint with lowest validation loss
-- **Loss Monitoring**: Warns if train/val loss difference >10%
+### Training Control
+- Limited Epochs: Maximum 3 epochs
+- Frequent Evaluation: Every 50 steps to catch overfitting early
+- Best Model Loading: Automatically loads checkpoint with lowest validation loss
+- Loss Monitoring: Warns if train/val loss difference >10%
 
-## 🛠️ Key Improvements over v1
+## Files
 
-- **Mixtral 7Bx8** instead of Llama distill model
-- **4-bit quantization** for efficient training
-- **Enhanced dataset** (219 vs 59 examples)
-- **Validation split + early stopping** to prevent overfitting
-- **Layer freezing** to retain base model generalization
-- **Conservative hyperparameters** optimized for small data
-- **Weights & Biases** integration for experiment tracking
-- **Flash Attention 2** for memory efficiency
+```
+fine_tuning/
+├── finetune_mixtral_lambda.py      # Main orchestration script
+├── lambda_training_script.py       # Training script with anti-overfitting measures
+├── run_training_simple.py          # Simple script for manual training
+├── check_setup.py                  # Validation script for setup verification
+├── setup_hf_dataset.py             # Dataset management
+├── upload_dataset_to_hf.py         # HF upload utilities
+├── validate_anti_overfit.py        # Training validation
+├── env_template                    # Environment variables template
+├── requirements.txt                # Python dependencies
+├── training.log                    # Training logs (placeholder)
+├── training_output.log             # Output logs (placeholder)
+└── README.md                       # This file
+```
 
-## 📁 Files
-
-- `finetune_mixtral_lambda.py` - Main orchestration script
-- `lambda_training_script.py` - Training script with anti-overfitting measures
-- `run_training_simple.py` - Simple script for manual training
-- `check_setup.py` - Validation script for setup verification
-- `env_template` - Environment variables template
-- `requirements.txt` - Python dependencies
-
-## 🚀 Setup
+## Setup
 
 ### 1. Environment Variables
 
@@ -74,10 +72,10 @@ cp env_template .env
 
 ### 2. Required Credentials
 
-- **Lambda Labs API key** - For GPU instance management
-- **HuggingFace API token** - For model upload/download
-- **HuggingFace account name** - For model repository
-- **W&B API key** - For experiment tracking (optional but recommended)
+- Lambda Labs API key - For GPU instance management
+- HuggingFace API token - For model upload/download
+- HuggingFace account name - For model repository
+- W&B API key - For experiment tracking (optional but recommended)
 
 ### 3. Install Dependencies
 
@@ -91,7 +89,7 @@ pip install -r requirements.txt
 python check_setup.py
 ```
 
-## 🎮 Usage
+## Usage
 
 ### Automatic Training Pipeline (Recommended)
 
@@ -102,14 +100,14 @@ python finetune_mixtral_lambda.py
 ```
 
 This will:
-1. 🚀 Launch an A100 GPU instance on Lambda Labs
-2. 🔧 Set up the training environment
-3. 📊 Fine-tune Mixtral using QLoRA + anti-overfitting measures
-4. 📈 Monitor training via Weights & Biases with validation tracking
-5. 🛑 Apply early stopping if overfitting detected
-6. 🔗 Merge LoRA adapters with the base model
-7. ⬆️ Upload the complete model to HuggingFace
-8. 🛑 Terminate the Lambda instance
+1. Launch an A100 GPU instance on Lambda Labs
+2. Set up the training environment
+3. Fine-tune Mixtral using QLoRA + anti-overfitting measures
+4. Monitor training via Weights & Biases with validation tracking
+5. Apply early stopping if overfitting detected
+6. Merge LoRA adapters with the base model
+7. Upload the complete model to HuggingFace
+8. Terminate the Lambda instance
 
 ### Manual Training
 
@@ -119,33 +117,33 @@ If you prefer to manage Lambda instances manually:
 python run_training_simple.py
 ```
 
-## ⚙️ Anti-Overfitting Parameters
+## Anti-Overfitting Parameters
 
 | Parameter | Value | Purpose | Previous |
 |-----------|-------|---------|----------|
-| **LoRA Rank** | 16 | Limit adapter capacity | 64 |
-| **LoRA Alpha** | 32 | Balanced adaptation | 128 |
-| **Learning Rate** | 1.5e-5 | Conservative training | 2e-4 |
-| **Weight Decay** | 0.08 | Strong L2 regularization | 0.001 |
-| **LoRA Dropout** | 0.15 | Noise injection | 0.1 |
-| **Max Epochs** | 3 | Prevent overtraining | No limit |
-| **Validation Split** | 20% | Monitor generalization | None |
-| **Early Stopping** | 3 patience | Stop on plateau | None |
-| **Layer Freezing** | 50% | Retain base knowledge | None |
-| **Eval Frequency** | 50 steps | Catch overfitting early | 100 |
+| LoRA Rank | 16 | Limit adapter capacity | 64 |
+| LoRA Alpha | 32 | Balanced adaptation | 128 |
+| Learning Rate | 1.5e-5 | Conservative training | 2e-4 |
+| Weight Decay | 0.08 | Strong L2 regularization | 0.001 |
+| LoRA Dropout | 0.15 | Noise injection | 0.1 |
+| Max Epochs | 3 | Prevent overtraining | No limit |
+| Validation Split | 20% | Monitor generalization | None |
+| Early Stopping | 3 patience | Stop on plateau | None |
+| Layer Freezing | 50% | Retain base knowledge | None |
+| Eval Frequency | 50 steps | Catch overfitting early | 100 |
 
-## 💰 Expected Costs
+## Expected Costs
 
-- **Training Time**: 3-5 hours (with early stopping)
-- **Lambda A100 Cost**: ~$1.10/hour
-- **Total Cost**: $3.30-$5.50
+- Training Time: 3-5 hours (with early stopping)
+- Lambda A100 Cost: ~$1.10/hour
+- Total Cost: $3.30-$5.50
 
-## 📈 Monitoring & Validation
+## Monitoring & Validation
 
 ### Weights & Biases Dashboard
 
 Track anti-overfitting metrics:
-- **Train vs Validation Loss** (key indicator)
+- Train vs Validation Loss (key indicator)
 - Learning rate schedule
 - GPU utilization
 - Training speed
@@ -156,14 +154,14 @@ Track anti-overfitting metrics:
 
 ```bash
 # Good training signs:
-✅ Train/Val loss decreasing together
-✅ Loss difference <10%
-✅ Gradual convergence
+✓ Train/Val loss decreasing together
+✓ Loss difference <10%
+✓ Gradual convergence
 
 # Overfitting warning signs:
-⚠️  Train loss << Val loss
-⚠️  Val loss plateau while train loss drops
-⚠️  Loss difference >10%
+⚠ Train loss << Val loss
+⚠ Val loss plateau while train loss drops
+⚠ Loss difference >10%
 ```
 
 ### Training Logs
@@ -174,16 +172,16 @@ Monitor progress via:
 tail -f training.log
 
 # Look for these messages:
-"✅ Good generalization. Train/Val loss difference: 0.05"
-"⚠️ Potential overfitting detected! Train/Val loss difference: 0.15"
+"Good generalization. Train/Val loss difference: 0.05"
+"Potential overfitting detected! Train/Val loss difference: 0.15"
 ```
 
-## 🎯 Output
+## Output
 
 The fine-tuned model will be available at:
-`https://huggingface.co/YOUR_ACCOUNT/EXPERT-Mixtral-8x7B-Instruct`
+https://huggingface.co/YOUR_ACCOUNT/EXPERT-Mixtral-8x7B-Instruct
 
-## 💻 Usage Example
+## Usage Example
 
 ```python
 from transformers import AutoModelForCausalLM, AutoTokenizer
@@ -210,7 +208,7 @@ response = tokenizer.decode(outputs[0], skip_special_tokens=True)
 print(response)
 ```
 
-## 🔧 Technical Details
+## Technical Details
 
 ### Anti-Overfitting Configuration
 ```python
@@ -246,51 +244,27 @@ def freeze_model_layers(model, freeze_percentage=0.5):
                 param.requires_grad = False
 ```
 
-## 🐛 Troubleshooting
+## Troubleshooting
 
 ### Overfitting Detection
-- **Symptom**: Validation loss increases while training loss decreases
-- **Solution**: Early stopping will trigger automatically
-- **Manual Check**: Monitor W&B dashboard for diverging loss curves
+- Symptom: Validation loss increases while training loss decreases
+- Solution: Early stopping will trigger automatically
+- Manual Check: Monitor W&B dashboard for diverging loss curves
 
 ### Underfitting Prevention
-- **Symptom**: Both train/val loss plateau at high values
-- **Solution**: Increase LoRA rank (16→32) or learning rate (1.5e-5→2e-5)
-- **Note**: Start conservative, then increase capacity if needed
+- Symptom: Both train/val loss plateau at high values
+- Solution: Increase LoRA rank (16→32) or learning rate (1.5e-5→2e-5)
+- Note: Start conservative, then increase capacity if needed
 
 ### Training Issues
-- **Memory Errors**: Layer freezing + 4-bit quantization should prevent this
-- **Slow Convergence**: Expected with conservative settings
-- **Early Stopping**: May stop at 1-2 epochs if optimal
+- Memory Errors: Layer freezing + 4-bit quantization should prevent this
+- Slow Convergence: Expected with conservative settings
+- Early Stopping: May stop at 1-2 epochs if optimal
 
-## 🔄 Comparison: v1 vs v2 (Anti-Overfitting)
-
-| Aspect | v1 (DeepSeek) | v2 (Mixtral Anti-Overfit) |
-|--------|---------------|---------------------------|
-| Model | DeepSeek-R1-Distill-Llama-8B | Mixtral-8x7B-Instruct |
-| Parameters | ~8B | ~47B (8x7B experts) |
-| Training Examples | 59 | 219 (175 train + 44 val) |
-| LoRA Rank | 32 | 16 (anti-overfit) |
-| Learning Rate | 2e-4 | 1.5e-5 (conservative) |
-| Weight Decay | 0.001 | 0.08 (strong reg.) |
-| Validation | None | 20% split + early stopping |
-| Layer Freezing | None | 50% of layers frozen |
-| Max Epochs | Unlimited | 3 (with early stop) |
-| Overfitting Risk | High | Minimized |
-| Expected Quality | Variable | Consistent + generalizable |
-
-## 📚 Resources
-
-- [Anti-Overfitting in Fine-tuning](https://arxiv.org/abs/2204.07705)
-- [QLoRA Paper](https://arxiv.org/abs/2305.14314)
-- [PEFT Documentation](https://huggingface.co/docs/peft)
-- [Early Stopping Guide](https://huggingface.co/docs/transformers/main_classes/callback#transformers.EarlyStoppingCallback)
-- [Weights & Biases Documentation](https://docs.wandb.ai/)
-
-## 🤝 Support
+## Support
 
 For issues or questions:
-1. **Check validation**: Run `python check_setup.py`
-2. **Monitor W&B**: Watch train/val loss curves for overfitting
-3. **Review logs**: Look for "Good generalization" vs "Overfitting detected" messages
-4. **Adjust hyperparameters**: Start conservative, increase capacity if underfitting 
+1. Check validation: Run `python check_setup.py`
+2. Monitor W&B: Watch train/val loss curves for overfitting
+3. Review logs: Look for "Good generalization" vs "Overfitting detected" messages
+4. Adjust hyperparameters: Start conservative, increase capacity if underfitting
