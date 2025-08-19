@@ -1,4 +1,4 @@
-WECLOME TO THE STACK!
+WELCOME TO THE STACK!
 
 First Step: Raw text data -> structured .jsonl or .json for fine-tuning.
 Second Step: Fine-tuning w/ Lambda Cloud GPUs.
@@ -16,41 +16,42 @@ Here are some key things to keep in mind:
 
 ## Project Structure
 
+```
 llm_stack/
-├── data_cleaning/              # Data preparation module
-│   ├── raw_data/              # Place raw data files here (currently contains README only)
-│   ├── process_raw_data.py    # Main data processing script
-│   ├── convert_to_mixtral.py  # Format conversion utilities
-│   ├── requirements.txt       # Dependencies
-│   ├── env_template          # Environment variables template
-│   └── README.md             # Module documentation
+├── data_cleaning/
+│   ├── raw_data/
+│   │   └── README.md                   # Place raw data files here
+│   ├── process_raw_data.py             # Main data processing script
+│   ├── convert_to_mixtral.py           # Format conversion utilities
+│   ├── requirements.txt                # Dependencies
+│   ├── env_template                    # Environment variables template
+│   └── README.md                       # Module documentation
 │
-├── fine_tuning/               # Model fine-tuning module
-│   ├── finetune_mixtral_lambda.py  # Lambda GPU training pipeline
-│   ├── lambda_training_script.py   # Remote training script
-│   ├── run_training_simple.py      # Simple training script
-│   ├── setup_hf_dataset.py         # Dataset management
-│   ├── upload_dataset_to_hf.py     # HF upload utilities
-│   ├── check_setup.py              # Environment validation
-│   ├── validate_anti_overfit.py    # Training validation
-│   ├── requirements.txt            # Dependencies
-│   ├── env_template               # Environment variables template
-│   ├── training.log               # Training logs (placeholder)
-│   ├── training_output.log        # Output logs (placeholder)
-│   └── README.md                  # Module documentation
+├── fine_tuning/
+│   ├── finetune_mixtral_lambda.py      # Lambda GPU training pipeline
+│   ├── lambda_training_script.py       # Remote training script
+│   ├── run_training_simple.py          # Simple training script
+│   ├── setup_hf_dataset.py             # Dataset management
+│   ├── upload_dataset_to_hf.py         # HF upload utilities
+│   ├── check_setup.py                  # Environment validation
+│   ├── validate_anti_overfit.py        # Training validation
+│   ├── requirements.txt                # Dependencies
+│   ├── env_template                    # Environment variables template
+│   ├── training.log                    # Training logs (placeholder)
+│   ├── training_output.log             # Output logs (placeholder)
+│   └── README.md                       # Module documentation
 │
-├── inference/                     # Model inference/deployment
-│   ├── app.py                    # Gradio web interface
-│   ├── requirements.txt          # Dependencies
-│   └── README.md                 # Module documentation
+├── inference/
+│   ├── app.py                          # Gradio web interface
+│   ├── requirements.txt                # Dependencies
+│   └── README.md                       # Module documentation
 │
-├── .gitignore                     # Git ignore rules for sensitive data
-├── SETUP_INSTRUCTIONS.md          # Complete setup guide
-└── README.md                      # This file
+├── .gitignore                          # Git ignore rules for sensitive data
+└── README.md                           # This file
+```
 
 Had some assistance from some of our AI buddies:
 
 -Claude Sonnet 4.0
 -OpenAI GPT-5
-
 
