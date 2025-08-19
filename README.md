@@ -7,10 +7,15 @@ Final Step: Push a Gradio app.py file onto your Huggingface account to interact 
 Here are some key things to keep in mind:
 
 1 - All this takes place away from your local computer, so you are not constricted by compute.  You have the ability to fine-tune on a million friggin' GPUs if you want.  
+
 2 - Use the absolute SOTA LLMs out there to adjust the "process_raw_data.py" file the way you want.  It is currently set to OpenAI's, but surprisingly I have found that xAI's Grok 4 is best suited for created structured AND synthetic data from your raw data files.  If you're worried about privacy and/or your data, give an open-sourced model a shot instead.
+
 3 - Fine-tuning happens by pulling your structured data (which was uploaded in after cleaning raw data) from your Huggingface account and loading it onto the GPU Lambda cloud cluster.
+
 4 - After the model has been fine-tuned (the current structure is set for Mixtral/Mistral.AI type model), it will be uploaded onto your Huggingface account and it live there sit there.  Make sure you have enough space!
+
 5 - When you are ready to interact with it, spin up a Huggingface Space with enough GPU compute to host and load your model directly from your Huggingface account.
+
 6 - I don't promise anything.  This is for fun, but feel free to offer improvements.
  
 
